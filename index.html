@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="xlsx.full.min.js"></script>
+    <script src="FileSaver.min.js"></script>
+</head>
+
+<body>
+    <button id="button-a">İndir</button>
+
+
+    <script>
+        ///////////ARRAY
+        var ws_data = [
+                ["İsim", "Yaş"],
+                ["Durmuş", "15"],
+                ["Emin", "22"],
+                ["Muhammed", "13"],
+                ["Hatice", "46"],
+            ]
+            /////////////
+
+
+        var wb = XLSX.utils.book_new();
+        wb.Props = {
+            title: "NE",
+            subject: "NE",
+            author: "Ne",
+            createDate: new Date(2021, 6, 23)
+        };
+        wb.SheetNames.push("Test Sheet");
+
+        var ws = XLSX.utils.aoa_to_sheet(ws_data);
+        wb.Sheets["Test Sheet"] = ws;
+
+        var wbout = XLSX.write(wb, {
+            booktype: "xlsx",
+            type: "binary"
+        });
+
+        function s2ab(s) {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF;
+            }
+            return buf;
+        }
+        document.getElementById("button-a").onclick = function() {
+            saveAs(new Blob([s2ab(wbout)], {
+                type: "application/octet-stream"
+            }), "test.xlsx")
+        }
+    </script>
+</body>
+
+</html>
