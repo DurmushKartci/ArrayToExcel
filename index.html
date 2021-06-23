@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <input type="text" name="test" id="isim" value="test">
     <button id="button-a">İndir</button>
 
 
@@ -25,7 +26,10 @@
             ]
             /////////////
 
-
+        let isim = "test";
+        document.getElementById("isim").oninput = function() {
+            isim = document.getElementById("isim").value;
+        }
         var wb = XLSX.utils.book_new();
         wb.Props = {
             title: "NE",
@@ -54,7 +58,7 @@
         document.getElementById("button-a").onclick = function() {
             saveAs(new Blob([s2ab(wbout)], {
                 type: "application/octet-stream"
-            }), "test.xlsx")
+            }), isim + ".xlsx")
         }
     </script>
 </body>
